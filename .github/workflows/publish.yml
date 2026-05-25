@@ -1,0 +1,45 @@
+name: Publish n8n-nodes-virtualsms to npm
+
+# Fires on a semver tag push (v0.1.5, v0.2.0, etc.) or manual workflow_dispatch.
+# Publishes to npm with --provenance via the OIDC Trusted Publisher flow
+# (npm: package settings → Trusted Publishers → GitHub Actions).
+# Configure once at:
+#   https://www.npmjs.com/package/n8n-nodes-virtualsms/access
+#   Repository: virtualsms-io/n8n-nodes-virtualsms
+#   Workflow:   publish.yml
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish to npm with provenance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          # No registry-url — that would inject a token-based .npmrc that
+          # conflicts with the OIDC Trusted Publisher flow.
+
+      - name: Upgrade npm (Trusted Publisher requires npm >= 11.5.1)
+        run: npm install -g npm@latest
+
+      - name: Install deps
+        run: npm install --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public

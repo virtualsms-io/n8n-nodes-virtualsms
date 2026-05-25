@@ -1,0 +1,68 @@
+{
+  "name": "n8n-nodes-virtualsms",
+  "version": "0.1.5",
+  "description": "n8n community node for VirtualSMS — real-SIM SMS verification across 145+ countries and 2,500+ services. Buy numbers, receive OTP codes via webhook or polling, manage rentals.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "sms",
+    "verification",
+    "otp",
+    "virtual-number",
+    "phone-verification",
+    "whatsapp",
+    "telegram",
+    "2fa",
+    "sim-card",
+    "virtualsms"
+  ],
+  "license": "MIT",
+  "homepage": "https://virtualsms.io",
+  "author": {
+    "name": "VirtualSMS",
+    "email": "dev@virtualsms.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtualsms-io/n8n-nodes-virtualsms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/virtualsms-io/n8n-nodes-virtualsms/issues"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ./scripts/copy-assets.js",
+    "dev": "tsc --watch",
+    "lint": "echo \"(eslint optional)\" && exit 0",
+    "clean": "rimraf dist",
+    "test": "echo \"(no tests yet)\" && exit 0"
+  },
+  "files": [
+    "dist",
+    "credentials",
+    "nodes",
+    "index.ts"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/VirtualSmsApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/VirtualSms/VirtualSms.node.js",
+      "dist/nodes/VirtualSmsTrigger/VirtualSmsTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "n8n-workflow": "*",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "engines": {
+    "node": ">=18.10.0"
+  }
+}
